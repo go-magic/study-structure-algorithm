@@ -1,5 +1,8 @@
 package list
 
+/*
+Node 递归实现
+*/
 type Node struct {
 	data   interface{} /*数据*/
 	next   *Node       /*后指针*/
@@ -49,13 +52,13 @@ func (n *Node) removeAt(i, pos int) {
 }
 
 func (n *Node) Show(i int) interface{} {
+	if n.length < i+1 {
+		return nil
+	}
 	return n.show(i, 0)
 }
 
 func (n *Node) show(i, pos int) interface{} {
-	if n.length < i+1 {
-		return nil
-	}
 	if i == pos+1 {
 		return n.next.data
 	}
