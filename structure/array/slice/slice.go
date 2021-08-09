@@ -2,8 +2,8 @@ package slice
 
 type Slice struct {
 	data []interface{}
-	len int
-	cap int
+	len  int
+	cap  int
 }
 
 /*
@@ -28,27 +28,27 @@ func strategy(length int) int {
 开辟一个新的空间
 */
 func makeSlice(length int) []interface{} {
-	return make([]interface{},0,length)
+	return make([]interface{}, 0, length)
 }
 
 /*
 Append 追加
 */
-func (s *Slice)Append(data interface{})  {
+func (s *Slice) Append(data interface{}) {
 	if s.len == s.cap {
 		s.dilatation()
 	}
-	s.data = append(s.data,data)
+	s.data = append(s.data, data)
 	s.len++
 }
 
 /*
 扩容
 */
-func (s *Slice)dilatation()  {
+func (s *Slice) dilatation() {
 	newCap := strategy(s.cap)
 	slice := makeSlice(newCap)
-	s.copy(&slice,s.data)
+	s.copy(&slice, s.data)
 	s.data = slice
 	s.cap = strategy(newCap)
 }
@@ -56,8 +56,8 @@ func (s *Slice)dilatation()  {
 /*
 拷贝数据到新地址
 */
-func (s *Slice)copy(target *[]interface{},source []interface{}){
-	for i,_ := range source {
-		*target = append(*target,source[i])
+func (s *Slice) copy(target *[]interface{}, source []interface{}) {
+	for i, _ := range source {
+		*target = append(*target, source[i])
 	}
 }
