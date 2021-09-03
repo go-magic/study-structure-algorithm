@@ -11,14 +11,12 @@ type queue struct {
 	cap    int
 	length int
 	data   []interface{}
-	first  bool
 }
 
 func NewQueue(cap int) *queue {
 	return &queue{
-		data:  make([]interface{}, cap, cap),
-		cap:   cap,
-		first: true,
+		data: make([]interface{}, cap),
+		cap:  cap,
 	}
 }
 
@@ -45,16 +43,6 @@ func (q *queue) advance(pre int) int {
 
 func (q *queue) mod(value int) int {
 	return value % q.cap
-}
-
-/*
-用大减小
-*/
-func (q *queue) positive(pre, next int) int {
-	if pre <= next {
-		pre += q.cap
-	}
-	return pre - next
 }
 
 /*
