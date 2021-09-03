@@ -3,7 +3,8 @@ package tree
 import "fmt"
 
 type Base struct {
-	n INode
+	n       INode
+	printer printer
 }
 
 func NewBase(n INode) *Base {
@@ -100,4 +101,71 @@ func (b Base) printNext(n INode) {
 		b.printNext(n.Right())
 	}
 	fmt.Println(n.GetData())
+}
+
+/*
+删除节点
+*/
+func (b Base) Delete(data int) {
+	b.n.Delete(data)
+}
+
+/*
+插入节点
+*/
+func (b Base) Insert(data int) {
+	b.n.Insert(data)
+}
+
+/*
+按层遍历二叉树的节点，要求不同层的节点需要换行
+*/
+func (b Base) PrintRows() {
+	//存储节点的临时队列
+	tempNodes := make([]INode, 0)
+	//所有节点
+	nodes := make([]INode, 0)
+	//将节点加入队列
+	tempNodes = append(tempNodes, b.n)
+	nodes = append(nodes, b.n)
+	nodes = b.createQueue(tempNodes, nodes)
+	b.printRow(nodes)
+}
+
+/*
+把所有节点加入到队列中
+*/
+func (b Base) createQueue(tempNodes, nodes []INode) []INode {
+	if len(tempNodes) == 0 {
+		return nodes
+	}
+	n := tempNodes[0]
+	tempNodes = tempNodes[1:]
+	if n.Left() != nil {
+		tempNodes = append(tempNodes, n.Left())
+		nodes = append(nodes, n.Left())
+	}
+	if n.Right() != nil {
+		tempNodes = append(tempNodes, n.Right())
+		nodes = append(nodes, n.Right())
+	}
+	return b.createQueue(tempNodes, nodes)
+}
+
+/*
+打印队列
+*/
+func (b Base) printRow(binaryNodes []INode) {
+	if len(binaryNodes) == 0 {
+		return
+	}
+	tempData := binaryNodes[0].GetData()
+	for _, node := range binaryNodes {
+		if tempData > node.GetData() {
+			//换行
+			fmt.Println()
+		}
+		b.printer.print(node)
+		tempData = node.GetData()
+	}
 }
