@@ -19,10 +19,18 @@ func (b *BinaryNode) GetData() int {
 }
 
 func (b *BinaryNode) Left() INode {
+	//防止interface为空崩溃
+	if b.left == nil {
+		return nil
+	}
 	return b.left
 }
 
 func (b *BinaryNode) Right() INode {
+	//防止interface为空崩溃
+	if b.right == nil {
+		return nil
+	}
 	return b.right
 }
 

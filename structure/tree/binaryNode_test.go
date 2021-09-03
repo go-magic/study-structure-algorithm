@@ -21,7 +21,9 @@ func createNode() *BinaryNode {
 按行打印
 */
 func TestPrint(t *testing.T) {
-	createNode().printRows()
+	tree := NewTree(createNode(), rowPrint{})
+	t.Log(tree.FindMinNode())
+	tree.PrintRows()
 }
 
 /*
@@ -39,4 +41,20 @@ func TestFindNode(t *testing.T) {
 func TestLength(t *testing.T) {
 	node := createNode()
 	t.Log(Length(node))
+}
+
+/*
+踩坑
+*/
+func newINode() INode {
+	return (*BinaryNode)(nil)
+}
+
+func TestNil(t *testing.T) {
+	i := newINode()
+	if i == nil {
+		t.Log("nil")
+		return
+	}
+	t.Log("not nil")
 }
