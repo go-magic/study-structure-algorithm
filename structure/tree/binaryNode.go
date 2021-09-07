@@ -44,7 +44,6 @@ func (b *BinaryNode) Insert(data int) {
 			return
 		}
 		b.left.Insert(data)
-		return
 	}
 	if data > b.data {
 		if b.right == nil {
@@ -52,36 +51,30 @@ func (b *BinaryNode) Insert(data int) {
 			return
 		}
 		b.right.Insert(data)
-		return
 	}
 }
-
-/***************************************************************************************/
-/*遍历end*/
-/***************************************************************************************/
 
 /*
 删除节点
 */
 func (b *BinaryNode) Delete(data int) {
-	if data < b.data {
-		if b.left != nil {
-			if data == b.left.data {
-				b.left = b.left.deleteNode()
-				return
-			}
-			b.left.Delete(data)
-		}
+	if b.data == data {
+		b.deleteRoot(data)
+		return
 	}
-	if data > b.data {
-		if b.right != nil {
-			if data == b.right.data {
-				b.right = b.right.deleteNode()
-				return
-			}
-			b.right.Delete(data)
-		}
-	}
+	b.delete(data)
+}
+
+func (b *BinaryNode) deleteRoot(data int) {
+	left := b.left
+	minNode := b.findNode(data)
+	b.data = minNode.data
+	minNode.left = left
+
+}
+
+func (b *BinaryNode) delete(data int) {
+
 }
 
 /*
