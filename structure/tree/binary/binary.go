@@ -53,19 +53,40 @@ func (n *Node) Delete(data node.IData) node.INode {
 	return n.delete(data)
 }
 
-func (n *Node) delete(data node.IData) node.INode {
-	dNode := node.FindNode(n, data)
-	if dNode.Right() == nil {
-		return dNode.Left()
+func (n *Node) delete(data node.IData) *Node {
+	dNode := n.FindNode(data)
+	if dNode.left == nil {
+		return dNode.left
 	}
-	rNode := node.FindMinNode(dNode.Right())
-	rNode.Left() =
+	rNode := n.FindMinNode()
+	rNode.left = dNode.left
+	return rNode
 }
 
-func (n *Node)AddLeft(left node.INode)  {
+func (n *Node) FindNode(data node.IData) *Node {
+	if n.Data() == data {
+		return n
+	}
+	if data < n.Data() {
+		return n.left.FindNode(data)
+	}
+	if data > n.Data() {
+		return n.right.FindNode(data)
+	}
+	return nil
+}
+
+func (n *Node) FindMinNode() *Node {
+	if n.left == nil {
+		return n
+	}
+	return n.left.FindMinNode()
+}
+
+func (n *Node) AddLeft(left node.INode) {
 
 }
 
-func (n *Node)AddRight(right node.INode)  {
+func (n *Node) AddRight(right node.INode) {
 
 }
