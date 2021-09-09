@@ -5,7 +5,7 @@ type INode interface {
 	Left() INode
 	Right() INode
 	Insert(int)
-	Delete(int)
+	Delete(int) INode
 }
 
 /*

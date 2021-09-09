@@ -57,30 +57,28 @@ func (b *BinaryNode) Insert(data int) {
 /*
 删除节点
 */
-func (b *BinaryNode) Delete(data int) {
-	if b.data == data {
-		b.deleteRoot(data)
-		return
+func (b *BinaryNode) Delete(data int) INode {
+	return b.delete(data)
+}
+
+func (b *BinaryNode) delete(data int) *BinaryNode {
+	node := FindNode(data, b)
+	if node.Left() == nil && node.Right() == nil {
+		return nil
 	}
-	b.delete(data)
-}
+	if node.Left() == nil {
 
-func (b *BinaryNode) deleteRoot(data int) {
-	left := b.left
-	minNode := b.findNode(data)
-	b.data = minNode.data
-	minNode.left = left
+	}
+	if node.Right() == nil {
 
-}
-
-func (b *BinaryNode) delete(data int) {
-
+	}
+	return nil
 }
 
 /*
 删除节点
 */
-func (b *BinaryNode) deleteNode() *BinaryNode {
+func (b *BinaryNode) deleteNode() INode {
 	if b.left == nil && b.right == nil {
 		return nil
 	}

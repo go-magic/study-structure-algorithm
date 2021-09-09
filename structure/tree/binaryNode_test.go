@@ -1,46 +1,43 @@
 package tree
 
 import (
+	"github.com/go-magic/study-structure-algorithm/structure/tree/binary"
+	"github.com/go-magic/study-structure-algorithm/structure/tree/node"
 	"testing"
 )
 
-func createNode() *BinaryNode {
-	node := newBinaryNode(10)
-	node.Insert(1)
-	node.Insert(3)
-	node.Insert(5)
-	node.Insert(19)
-	node.Insert(4)
-	node.Insert(21)
-	node.Insert(6)
-	node.Insert(7)
-	return node
+func createNode() node.INode {
+	n := binary.NewNode(10)
+	n.Insert(1)
+	n.Insert(3)
+	n.Insert(5)
+	n.Insert(19)
+	n.Insert(4)
+	n.Insert(21)
+	n.Insert(6)
+	n.Insert(7)
+	return n
 }
 
 /*
 按行打印
 */
 func TestPrint(t *testing.T) {
-	tree := NewTree(createNode(), rowPrint{})
-	t.Log(tree.FindMinNode())
-	tree.PrintRows()
+	t.Log(node.FindNodeLength(createNode()))
 }
 
 /*
 测试层高
 */
 func TestFindNode(t *testing.T) {
-	node := createNode()
-	n := node.findNode(21)
-	t.Log(n.data)
+
 }
 
 /*
 测试层高
 */
 func TestLength(t *testing.T) {
-	node := createNode()
-	t.Log(Length(node))
+
 }
 
 /*
