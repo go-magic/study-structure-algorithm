@@ -18,8 +18,8 @@ func initBinaryTree() *Tree {
 	return tree
 }
 
-func TestNewTree(t *testing.T) {
+func TestDelete(t *testing.T) {
 	tree := initBinaryTree()
-	tree.Delete(80)
+	tree.Delete(200)
 	tree.Delete(90)
 }
