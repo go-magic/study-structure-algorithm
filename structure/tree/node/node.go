@@ -173,5 +173,5 @@ func (n *Node) length() int {
 	if l > r {
 		return l
 	}
-	return r + 1
+	return r
 }
