@@ -104,54 +104,52 @@ func (n *Node) Delete(data int) *Node {
 func (n *Node) delete(data int) *Node {
 	//删除当前节点
 	if data == n.Data {
-		if n.Left == nil && n.Right == nil {
-			return nil
-		}
-		if n.Right == nil {
-			return n.deleteRightNode()
-		}
-		return n.deleteLeftNode()
+		return n.deleteNode()
 	}
 	if data < n.Data {
 		n.Left = n.Left.delete(data)
-		return n
 	}
 	if data > n.Data {
 		n.Right = n.Right.delete(data)
-		return n
 	}
-	return nil
+	return n
 }
 
 /*
-删除右节点
+删除节点实例
 */
-func (n *Node) deleteRightNode() *Node {
-	maxNode := n.Left.FindMaxNode()
-	father := n.Left.FindNodeFather(maxNode.Data)
-	if father == nil {
-		n.Left.Right = n.Left
-		return n.Left
+func (n *Node) deleteNode() *Node {
+	if n.Left == nil && n.Right == nil {
+		return nil
 	}
-	father.Right = maxNode.Left
+	if n.Right == nil {
+		return n.deleteLeftNode()
+	}
+	return n.deleteRightNode()
+}
+
+/*
+把左子树的最大节点移上来,注意移动左右节点
+*/
+func (n *Node) deleteLeftNode() *Node {
+	maxNode := n.Left.FindMaxNode()
+	n.Left.Right = maxNode.Left
 	maxNode.Left = n.Left
-	maxNode.Right = n.Right
 	return maxNode
 }
 
 /*
-删除左节点
+把右子树的最小节点移上来,注意需要把最小节点的右节点挂到最小节点的父节点的左孩子上
 */
-func (n *Node) deleteLeftNode() *Node {
+func (n *Node) deleteRightNode() *Node {
 	minNode := n.Right.FindMinNode()
-	father := n.Right.FindNodeFather(minNode.Data)
+	minNode.Left = n.Left
+	father := n.FindNodeFather(minNode.Data)
 	if father == nil {
-		n.Right.Left = n.Left
-		return n.Right
+		return minNode
 	}
 	father.Left = minNode.Right
 	minNode.Right = n.Right
-	minNode.Left = n.Left
 	return minNode
 }
 

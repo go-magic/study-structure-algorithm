@@ -66,7 +66,6 @@ func (a *AvlNode) setNodeLength() {
 func (a *AvlNode) check() *AvlNode {
 	if !a.balance() && balance {
 		balance = false
-		Count++
 		return a.change()
 	}
 	return a
@@ -104,6 +103,7 @@ func (a *AvlNode) change() *AvlNode {
 左左
 */
 func (a *AvlNode) ll() *AvlNode {
+	Count++
 	l := a.Left
 	a.Left = l.Right
 	a.setNodeLength()
@@ -116,6 +116,7 @@ func (a *AvlNode) ll() *AvlNode {
 左右
 */
 func (a *AvlNode) lr() *AvlNode {
+	Count++
 	l := a.Left
 	a.Left = l.Right
 	a.setNodeLength()
@@ -130,6 +131,7 @@ func (a *AvlNode) lr() *AvlNode {
 右左
 */
 func (a *AvlNode) rl() *AvlNode {
+	Count++
 	r := a.Right
 	a.Right = r.Left
 	a.setNodeLength()
@@ -144,6 +146,7 @@ func (a *AvlNode) rl() *AvlNode {
 右右
 */
 func (a *AvlNode) rr() *AvlNode {
+	Count++
 	r := a.Right
 	a.Right = r.Left
 	a.setNodeLength()
@@ -202,4 +205,118 @@ func (a *AvlNode) NodeNum() int {
 		rightNum = a.Right.NodeNum() + 1
 	}
 	return leftNum + rightNum
+}
+
+func (a *AvlNode) DeleteNode(data int) *AvlNode {
+	return a.deleteNode(data)
+}
+
+func (a *AvlNode) deleteNode(data int) *AvlNode {
+	if data == a.Data {
+		return a.delete()
+	}
+	if data < a.Data {
+		a.Left = a.Left.deleteNode(data)
+	}
+	if data > a.Data {
+		a.Right = a.Right.deleteNode(data)
+	}
+	return a
+}
+
+/*
+二叉树删除涉及到多种情况，需要逐个处理
+
+1.当前节点为叶子节点
+
+　　直接删除
+
+2.当前节点右子树为空
+
+　　复制左子树中最大的值，用该值替代当前节点，删除左子树中原节点。
+
+3.当前节点右子树不为空
+
+　　复制右子树中最小的值，用该值替代当前节点，删除右子树中原节点。
+*/
+
+func (a *AvlNode) delete() *AvlNode {
+	if a.Left == nil && a.Right == nil {
+		return nil
+	}
+	if a.Right == nil {
+		return a.deleteLeftNode()
+	}
+	return a.deleteRightNode()
+}
+
+/*
+把左子树的最大节点移上来,注意移动左右节点
+*/
+func (a *AvlNode) deleteLeftNode() *AvlNode {
+	maxNode := a.Left.findMaxNode()
+	a.Left.Right = maxNode.Left
+	maxNode.Left = a.Left
+	return maxNode
+}
+
+/*
+把右子树的最小节点移上来,注意需要把最小节点的右节点挂到最小节点的父节点的左孩子上
+*/
+func (a *AvlNode) deleteRightNode() *AvlNode {
+	minNode := a.Right.findMinNode()
+	minNode.Left = a.Left
+	father := a.findNodeFather(minNode.Data)
+	if father == nil {
+		return minNode
+	}
+	father.Left = minNode.Right
+	minNode.Right = a.Right
+	return minNode
+}
+
+/*
+查找最小节点
+*/
+func (a *AvlNode) findMinNode() *AvlNode {
+	if a.Left == nil {
+		return a
+	}
+	return a.Left.findMinNode()
+}
+
+/*
+查找最大节点
+*/
+func (a *AvlNode) findMaxNode() *AvlNode {
+	if a.Right == nil {
+		return a
+	}
+	return a.Right.findMaxNode()
+}
+
+/*
+寻找父节点
+*/
+func (a *AvlNode) findNodeFather(data int) *AvlNode {
+	if a.Left == nil && a.Right == nil {
+		return nil
+	}
+	if a.Data == data {
+		return nil
+	}
+	if a.Left != nil {
+		if a.Left.Data == data {
+			return a
+		}
+	}
+	if a.Right != nil {
+		if a.Right.Data == data {
+			return a
+		}
+	}
+	if data < a.Data {
+		return a.Left.findNodeFather(data)
+	}
+	return a.Right.findNodeFather(data)
 }
