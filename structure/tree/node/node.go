@@ -175,3 +175,14 @@ func (n *Node) length() int {
 	}
 	return r
 }
+
+func (n *Node) NodeNum() int {
+	leftNum, rightNum := 0, 0
+	if n.Left != nil {
+		leftNum = n.Left.NodeNum() + 1
+	}
+	if n.Right != nil {
+		rightNum = n.Right.NodeNum() + 1
+	}
+	return leftNum + rightNum
+}

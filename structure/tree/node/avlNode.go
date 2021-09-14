@@ -1,5 +1,8 @@
 package node
 
+var balance bool
+var Count int
+
 type AvlNode struct {
 	Left  *AvlNode
 	Right *AvlNode
@@ -7,6 +10,7 @@ type AvlNode struct {
 }
 
 func NewAvlNode(data int) *AvlNode {
+	balance = true
 	return &AvlNode{
 		Data: data,
 	}
@@ -37,7 +41,9 @@ func (a *AvlNode) Insert(data int) *AvlNode {
 调整节点
 */
 func (a *AvlNode) check() *AvlNode {
-	if !a.balance() {
+	if !a.balance() && balance {
+		balance = false
+		Count++
 		return a.change()
 	}
 	return a

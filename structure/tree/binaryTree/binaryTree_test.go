@@ -1,6 +1,11 @@
 package binary
 
-import "testing"
+import (
+	"github.com/go-magic/study-structure-algorithm/structure/tree/node"
+	"math/rand"
+	"testing"
+	"time"
+)
 
 func initBinaryTree() *Tree {
 	tree := NewTree()
@@ -18,8 +23,21 @@ func initBinaryTree() *Tree {
 	return tree
 }
 
+func createTree(num int) *Tree {
+	tree := NewTree()
+	rand.Seed(time.Now().Unix())
+	for i := 0; i < num; i++ {
+		r := rand.Intn(num)
+		tree.Insert(r)
+	}
+	return tree
+}
+
 func TestDelete(t *testing.T) {
-	tree := initBinaryTree()
-	tree.Delete(200)
-	tree.Delete(90)
+	num := 100000
+	tree := createTree(num)
+	t.Log("插入节点数:", num)
+	t.Log("层高:", tree.Length())
+	t.Log("节点数:", tree.NodeNum())
+	t.Log("旋转次数:", node.Count)
 }

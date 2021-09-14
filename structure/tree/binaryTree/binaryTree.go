@@ -30,3 +30,10 @@ func (t *Tree) Length() int {
 func (t *Tree) Delete(data int) {
 	t.root = t.root.Delete(data)
 }
+
+func (t *Tree) NodeNum() int {
+	if t.root == nil {
+		return 0
+	}
+	return t.root.NodeNum() + 1
+}
