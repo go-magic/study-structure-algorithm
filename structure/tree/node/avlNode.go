@@ -4,15 +4,17 @@ var balance bool
 var Count int
 
 type AvlNode struct {
-	Left  *AvlNode
-	Right *AvlNode
-	Data  int
+	Left       *AvlNode
+	Right      *AvlNode
+	Data       int
+	NodeLength int
 }
 
 func NewAvlNode(data int) *AvlNode {
 	balance = true
 	return &AvlNode{
-		Data: data,
+		Data:       data,
+		NodeLength: 1,
 	}
 }
 
@@ -23,6 +25,7 @@ func (a *AvlNode) Insert(data int) *AvlNode {
 	if data < a.Data {
 		if a.Left == nil {
 			a.Left = NewAvlNode(data)
+			a.setNodeLength()
 			return a
 		}
 		a.Left = a.Left.Insert(data)
@@ -30,11 +33,31 @@ func (a *AvlNode) Insert(data int) *AvlNode {
 	if data > a.Data {
 		if a.Right == nil {
 			a.Right = NewAvlNode(data)
+			a.setNodeLength()
 			return a
 		}
 		a.Right = a.Right.Insert(data)
 	}
+	a.setNodeLength()
 	return a.check()
+}
+
+/*
+记录每个节点的层高,不用每次去递归获取,每次给左右节点赋值都需要重新计算层高
+*/
+func (a *AvlNode) setNodeLength() {
+	l, r := 1, 1
+	if a.Left != nil {
+		l = a.Left.NodeLength + 1
+	}
+	if a.Right != nil {
+		r = a.Right.NodeLength + 1
+	}
+	if l > r {
+		a.NodeLength = l
+		return
+	}
+	a.NodeLength = r
 }
 
 /*
@@ -83,29 +106,37 @@ func (a *AvlNode) change() *AvlNode {
 func (a *AvlNode) ll() *AvlNode {
 	l := a.Left
 	a.Left = l.Right
+	a.setNodeLength()
 	l.Right = a
+	l.setNodeLength()
 	return l
 }
 
 /*
-左右,把左左交给父节点旋转
+左右
 */
 func (a *AvlNode) lr() *AvlNode {
 	l := a.Left
 	a.Left = l.Right
+	a.setNodeLength()
 	l.Right = a.Left.Left
+	l.setNodeLength()
 	a.Left.Left = l
+	a.Left.setNodeLength()
 	return a.ll()
 }
 
 /*
-右左,把右右节点交给父节点旋转
+右左
 */
 func (a *AvlNode) rl() *AvlNode {
 	r := a.Right
 	a.Right = r.Left
+	a.setNodeLength()
 	r.Left = a.Right.Right
+	r.setNodeLength()
 	a.Right.Right = r
+	a.Right.setNodeLength()
 	return a.rr()
 }
 
@@ -115,7 +146,9 @@ func (a *AvlNode) rl() *AvlNode {
 func (a *AvlNode) rr() *AvlNode {
 	r := a.Right
 	a.Right = r.Left
+	a.setNodeLength()
 	r.Left = a
+	r.setNodeLength()
 	return r
 }
 
@@ -123,22 +156,18 @@ func (a *AvlNode) rr() *AvlNode {
 检测节点是否平衡
 */
 func (a *AvlNode) balance() bool {
-	l, r := 0, 0
+	l, r := 1, 1
 	if a.Left != nil {
-		l = a.Left.Length() + 1
+		l = a.Left.NodeLength + 1
 	}
 	if a.Right != nil {
-		r = a.Right.Length() + 1
+		r = a.Right.NodeLength + 1
 	}
-	if l > r {
-		if l-r > 1 {
-			return false
-		}
+	if l-r > 1 {
+		return false
 	}
-	if l < r {
-		if r-l > 1 {
-			return false
-		}
+	if r-l > 1 {
+		return false
 	}
 	return true
 }
@@ -153,10 +182,10 @@ func (a *AvlNode) Length() int {
 func (a *AvlNode) length() int {
 	var l, r int
 	if a.Left != nil {
-		l = a.Left.length() + 1
+		l = a.Left.NodeLength + 1
 	}
 	if a.Right != nil {
-		r = a.Right.length() + 1
+		r = a.Right.NodeLength + 1
 	}
 	if l > r {
 		return l

@@ -27,7 +27,8 @@ func insert() *Tree {
 	tree.Insert(220)
 	tree.Insert(280)
 	tree.Insert(80)
-	tree.Insert(100)
+	tree.Insert(130)
+	//tree.Insert(100)
 	tree.Insert(40)
 	return tree
 }
@@ -37,7 +38,7 @@ func TestNewTree(t *testing.T) {
 }
 
 func TestInsert(t *testing.T) {
-	num := 40000
+	num := 10000000
 	tree := createTree(num)
 	t.Log("插入节点数:", num)
 	t.Log("层高:", tree.Length())
