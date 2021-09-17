@@ -277,7 +277,7 @@ func (a *AvlNode) deleteLeftNode() *AvlNode {
 }
 
 /*
-把右子树的最小节点移上来,注意需要把最小节点的右节点挂到最小节点的父节点的左孩子上
+把右子树的最小节点移上来,注意需要把最小节点的右节点挂到最小节点的父节点的左孩子上,注意要检查这个节点是否平衡
 */
 func (a *AvlNode) deleteRightNode() *AvlNode {
 	minNode := a.Right.findMinNode()

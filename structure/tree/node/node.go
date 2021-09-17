@@ -133,6 +133,9 @@ func (n *Node) deleteNode() *Node {
 */
 func (n *Node) deleteLeftNode() *Node {
 	maxNode := n.Left.FindMaxNode()
+	if maxNode == n.Left {
+		return maxNode
+	}
 	n.Left.Right = maxNode.Left
 	maxNode.Left = n.Left
 	return maxNode

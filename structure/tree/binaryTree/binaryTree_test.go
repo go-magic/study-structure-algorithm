@@ -17,9 +17,9 @@ func initBinaryTree() *Tree {
 	tree.Insert(220)
 	tree.Insert(280)
 	tree.Insert(80)
+	tree.Insert(130)
+	tree.Insert(170)
 	tree.Insert(40)
-	tree.Insert(100)
-	tree.Insert(90)
 	return tree
 }
 
@@ -42,7 +42,63 @@ func TestInsert(t *testing.T) {
 	t.Log("旋转次数:", node.Count)
 }
 
-func TestDelete(t *testing.T) {
+func TestDeleteLeaf(t *testing.T) {
+	tree := initBinaryTree()
+	tree.Delete(280)
+	if tree.root.Left.Data == 160 &&
+		tree.root.Right.Data == 240 &&
+		tree.root.Right.Left.Data == 220 &&
+		tree.root.Right.Right == nil {
+		t.Log("删除280节点成功")
+		return
+	}
+	t.Fatal("删除280节点失败")
+}
+
+func TestRightNode(t *testing.T) {
+	tree := initBinaryTree()
+	tree.Delete(160)
+	if tree.root.Left.Data == 170 &&
+		tree.root.Left.Right.Data == 180 &&
+		tree.root.Left.Left.Data == 120 {
+		t.Log("删除160节点成功")
+		return
+	}
+	t.Fatal("删除160节点失败")
+}
+
+func TestRightNode1(t *testing.T) {
+	tree := initBinaryTree()
+	tree.Delete(200)
+	if tree.root.Data == 220 &&
+		tree.root.Left.Data == 160 &&
+		tree.root.Right.Data == 240 &&
+		tree.root.Right.Left == nil &&
+		tree.root.Right.Right.Data == 280 {
+		t.Log("删除200节点成功")
+		return
+	}
+	t.Fatal("删除200节点失败")
+}
+
+func TestNotRightNode(t *testing.T) {
 	tree := initBinaryTree()
 	tree.Delete(80)
+	if tree.root.Left.Left.Left.Data == 40 &&
+		tree.root.Left.Left.Right.Data == 130 {
+		t.Log("删除80节点成功")
+		return
+	}
+	t.Fatal("删除80节点失败")
+}
+
+func TestNotRightNode1(t *testing.T) {
+	tree := initBinaryTree()
+	tree.Delete(180)
+	if tree.root.Left.Right.Data == 170 &&
+		tree.root.Left.Left.Data == 120 {
+		t.Log("删除180节点成功")
+		return
+	}
+	t.Fatal("删除180节点失败")
 }
