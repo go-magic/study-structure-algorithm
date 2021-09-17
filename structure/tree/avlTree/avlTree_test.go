@@ -24,17 +24,6 @@ func deleteNode(tree *Tree, length, num int) {
 	}
 }
 
-/*
-				200                                   200                                              200
-			   /   \
-             160   240                           160        240                                    160     280
-             / \   / \
-           120 180220280     -----旋转----->   80    180  220     280   ------删除240---->        80   180 220
-           /
-          80                               40    120                                           40 120
-         /
-        40
-*/
 func insert() *Tree {
 	tree := NewTree()
 	tree.Insert(200)
@@ -45,10 +34,26 @@ func insert() *Tree {
 	tree.Insert(220)
 	tree.Insert(280)
 	tree.Insert(80)
-	//tree.Insert(130)
-	//tree.Insert(100)
+	tree.Insert(130)
+	tree.Insert(170)
 	tree.Insert(40)
 	return tree
+}
+
+/*
+成功
+*/
+func TestInsertNode(t *testing.T) {
+	tree := insert()
+	if tree.root.Data == 160 &&
+		tree.root.Left.Data == 120 &&
+		tree.root.Right.Data == 200 &&
+		tree.root.Right.Left.Data == 180 {
+		t.Log("插入数据成功")
+		return
+	}
+	t.Fatal("插入数据失败")
+	return
 }
 
 /*
@@ -57,9 +62,9 @@ func insert() *Tree {
 func TestDeleteLeafNode(t *testing.T) {
 	tree := insert()
 	tree.Delete(280)
-	if tree.root.Right.Data == 240 &&
-		tree.root.Right.Left.Data == 220 &&
-		tree.root.Right.Right == nil {
+	if tree.root.Right.Right.Data == 240 &&
+		tree.root.Right.Right.Left.Data == 220 &&
+		tree.root.Right.Right.Right == nil {
 		t.Log("删除280成功")
 		return
 	}
@@ -71,14 +76,15 @@ func TestDeleteLeafNode(t *testing.T) {
 */
 func TestDeleteNotRightNode(t *testing.T) {
 	tree := insert()
-	tree.Delete(120)
-	if tree.root.Left.Left.Data == 80 &&
-		tree.root.Left.Left.Left.Data == 40 &&
-		tree.root.Left.Right == nil {
-		t.Log("删除120成功")
+	tree.Delete(80)
+	if tree.root.Left.Left.Data == 40 &&
+		tree.root.Left.Data == 120 &&
+		tree.root.Left.Right.Data == 130 &&
+		tree.root.Left.Left.Right == nil {
+		t.Log("删除80成功")
 		return
 	}
-	t.Fatal("删除120失败")
+	t.Fatal("删除80失败")
 }
 
 /*
@@ -96,15 +102,15 @@ func deleteRightNode() bool {
 }
 func TestDeleteRightNode(t *testing.T) {
 	tree := insert()
-	tree.Delete(160)
+	tree.Delete(120)
 	if tree.root.Left.Data == 80 &&
 		tree.root.Left.Left.Data == 40 &&
-		tree.root.Left.Right.Data == 180 &&
-		tree.root.Left.Right.Left.Data == 120 {
-		t.Log("删除160成功")
+		tree.root.Left.Right.Data == 130 &&
+		tree.root.Right.Data == 200 {
+		t.Log("删除120成功")
 		return
 	}
-	t.Fatal("删除160失败")
+	t.Fatal("删除120失败")
 }
 
 func TestInsert(t *testing.T) {

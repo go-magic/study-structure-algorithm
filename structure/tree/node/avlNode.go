@@ -270,15 +270,10 @@ func (a *AvlNode) delete() *AvlNode {
 }
 
 /*
-把左子树的最大节点移上来,注意移动左右节点
+如果没有右节点那么左节点最多只有一个
 */
 func (a *AvlNode) deleteLeftNode() *AvlNode {
-	maxNode := a.Left.findMaxNode()
-	a.Left.Right = maxNode.Left
-	a.Left.setNodeLength()
-	maxNode.Left = a.Left
-	maxNode.setNodeLength()
-	return maxNode
+	return a.Left
 }
 
 /*
@@ -290,13 +285,13 @@ func (a *AvlNode) deleteRightNode() *AvlNode {
 	minNode.setNodeLength()
 	father := a.Right.findNodeFather(minNode.Data)
 	if father == nil {
-		return minNode
+		return minNode.check()
 	}
 	father.Left = minNode.Right
 	father.setNodeLength()
 	minNode.Right = a.Right
 	minNode.setNodeLength()
-	return minNode
+	return minNode.check()
 }
 
 /*
