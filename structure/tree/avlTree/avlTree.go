@@ -22,7 +22,7 @@ func (t *Tree) Length() int {
 	if t.root == nil {
 		return 0
 	}
-	return t.root.Length() + 1
+	return t.root.Length()
 }
 
 func (t *Tree) NodeNum() int {
@@ -30,4 +30,15 @@ func (t *Tree) NodeNum() int {
 		return 0
 	}
 	return t.root.NodeNum() + 1
+}
+
+func (t *Tree) Delete(data int) {
+	t.root = t.root.DeleteNode(data)
+}
+
+func (t *Tree) RecursionLength() int {
+	if t.root == nil {
+		return 0
+	}
+	return t.root.RecursionLength() + 1
 }

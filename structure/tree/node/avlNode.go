@@ -1,6 +1,5 @@
 package node
 
-var balance bool
 var Count int
 
 type AvlNode struct {
@@ -11,7 +10,6 @@ type AvlNode struct {
 }
 
 func NewAvlNode(data int) *AvlNode {
-	balance = true
 	return &AvlNode{
 		Data:       data,
 		NodeLength: 1,
@@ -64,8 +62,7 @@ func (a *AvlNode) setNodeLength() {
 调整节点
 */
 func (a *AvlNode) check() *AvlNode {
-	if !a.balance() && balance {
-		balance = false
+	if !a.balance() {
 		return a.change()
 	}
 	return a
@@ -175,6 +172,20 @@ func (a *AvlNode) balance() bool {
 	return true
 }
 
+func (a *AvlNode) RecursionLength() int {
+	l, r := 0, 0
+	if a.Left != nil {
+		l = a.Left.RecursionLength() + 1
+	}
+	if a.Right != nil {
+		r = a.Right.RecursionLength() + 1
+	}
+	if l > r {
+		return l
+	}
+	return r
+}
+
 /*
 获取树的层高
 */
@@ -216,10 +227,18 @@ func (a *AvlNode) deleteNode(data int) *AvlNode {
 		return a.delete()
 	}
 	if data < a.Data {
-		a.Left = a.Left.deleteNode(data)
+		if a.Left != nil {
+			a.Left = a.Left.deleteNode(data)
+			a.setNodeLength()
+			return a.check()
+		}
 	}
 	if data > a.Data {
-		a.Right = a.Right.deleteNode(data)
+		if a.Right != nil {
+			a.Right = a.Right.deleteNode(data)
+			a.setNodeLength()
+			return a.check()
+		}
 	}
 	return a
 }
@@ -256,7 +275,9 @@ func (a *AvlNode) delete() *AvlNode {
 func (a *AvlNode) deleteLeftNode() *AvlNode {
 	maxNode := a.Left.findMaxNode()
 	a.Left.Right = maxNode.Left
+	a.Left.setNodeLength()
 	maxNode.Left = a.Left
+	maxNode.setNodeLength()
 	return maxNode
 }
 
@@ -266,12 +287,15 @@ func (a *AvlNode) deleteLeftNode() *AvlNode {
 func (a *AvlNode) deleteRightNode() *AvlNode {
 	minNode := a.Right.findMinNode()
 	minNode.Left = a.Left
-	father := a.findNodeFather(minNode.Data)
+	minNode.setNodeLength()
+	father := a.Right.findNodeFather(minNode.Data)
 	if father == nil {
 		return minNode
 	}
 	father.Left = minNode.Right
+	father.setNodeLength()
 	minNode.Right = a.Right
+	minNode.setNodeLength()
 	return minNode
 }
 
