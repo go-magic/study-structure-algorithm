@@ -34,7 +34,7 @@ func createTree(num int) *Tree {
 }
 
 func TestInsert(t *testing.T) {
-	num := 100000
+	num := 1000000
 	tree := createTree(num)
 	t.Log("插入节点数:", num)
 	t.Log("层高:", tree.Length())

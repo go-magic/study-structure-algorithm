@@ -223,9 +223,6 @@ func (a *AvlNode) DeleteNode(data int) *AvlNode {
 }
 
 func (a *AvlNode) deleteNode(data int) *AvlNode {
-	if data == a.Data {
-		return a.delete()
-	}
 	if data < a.Data {
 		if a.Left != nil {
 			a.Left = a.Left.deleteNode(data)
@@ -240,7 +237,7 @@ func (a *AvlNode) deleteNode(data int) *AvlNode {
 			return a.check()
 		}
 	}
-	return a
+	return a.delete()
 }
 
 /*
