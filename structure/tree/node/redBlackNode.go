@@ -74,10 +74,17 @@ func (r *RedBlackNode) SetRedColor() {
 检测红黑树是否平衡
 */
 func (r *RedBlackNode) check() *RedBlackNode {
-	if r.balance() {
-		return r
+	if r.Left != nil {
+		if !r.Left.balance() {
+			return r.change()
+		}
 	}
-	return r.change()
+	if r.Right != nil {
+		if !r.Right.balance() {
+			return r.change()
+		}
+	}
+	return r
 }
 
 /*
