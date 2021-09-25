@@ -108,15 +108,11 @@ func (r *RedBlackNode) change() *RedBlackNode {
 */
 func (r *RedBlackNode) isRule2() bool {
 	//能走到这里，肯定有一个节点不为空
-	if r.Left == nil {
-		if r.Right.Color == Red && r.Right.isLeaf() {
-			return true
-		}
+	if r.Left == nil && r.Right.Color == Red && r.Right.isLeaf() {
+		return true
 	}
-	if r.Right == nil {
-		if r.Left.Color == Red && r.Left.isLeaf() {
-			return true
-		}
+	if r.Right == nil && r.Left.Color == Red && r.Left.isLeaf() {
+		return true
 	}
 	return false
 }
@@ -125,7 +121,12 @@ func (r *RedBlackNode) isRule3() bool {
 	if r.Left != nil && r.Right != nil {
 		//外部条件已经判断为这个节点为黑色，且不平衡，则左右孩子都为红色时则为规则3
 		if r.Left.Color == Red && r.Right.Color == Red {
-			return true
+			if r.Left.haveRedChild() {
+				return true
+			}
+			if r.Right.haveRedChild() {
+				return true
+			}
 		}
 	}
 	return false
@@ -167,13 +168,21 @@ func (r *RedBlackNode) isRule5() bool {
 			return true
 		}
 	}
+	if r.Left == nil || r.Left.Color == Black {
+		if r.Right.Color == Black || r.Right.Right == nil {
+			return false
+		}
+		if r.Right.Color == Red && r.Right.Right.Color == Red {
+			return true
+		}
+	}
 	return false
 }
 
 func (r *RedBlackNode) rule3() *RedBlackNode {
 	r.setRedColor()
 	r.Left.setBlackColor()
-	r.Right.setRedColor()
+	r.Right.setBlackColor()
 	return r
 }
 
@@ -213,9 +222,10 @@ rr单旋转
 */
 func (r *RedBlackNode) rr() *RedBlackNode {
 	right := r.Right
-	r.Right = right.Right
-	right.Right = r.Right.Left
-	r.Right.Left = right
+	r.Right = right.Left
+	right.Left = r
+	right.setBlackColor()
+	right.Left.setRedColor()
 	return r
 }
 
@@ -235,10 +245,11 @@ ll单旋转
 */
 func (r *RedBlackNode) ll() *RedBlackNode {
 	left := r.Left
-	r.Left = left.Left
-	left.Left = r.Left.Right
-	r.Left.Right = left
-	return r
+	r.Left = left.Right
+	left.Right = r
+	left.setBlackColor()
+	left.Right.setRedColor()
+	return left
 }
 
 /*
@@ -285,6 +296,16 @@ func (r *RedBlackNode) changeBranch() *RedBlackNode {
 
 func (r *RedBlackNode) isLeaf() bool {
 	if r.Left == nil && r.Right == nil {
+		return true
+	}
+	return false
+}
+
+func (r *RedBlackNode) haveRedChild() bool {
+	if r.Left != nil && r.Left.Color == Red {
+		return true
+	}
+	if r.Right != nil && r.Right.Color == Red {
 		return true
 	}
 	return false
