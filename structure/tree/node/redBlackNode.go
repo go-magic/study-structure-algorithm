@@ -53,7 +53,7 @@ func (r *RedBlackNode) Insert(data int) *RedBlackNode {
 /*
 设置节点颜色并改变黑色节点的总长度
 */
-func (r *RedBlackNode) setBlackColor() {
+func (r *RedBlackNode) SetBlackColor() {
 	if r.Color == Red {
 		r.length++
 	}
@@ -63,7 +63,7 @@ func (r *RedBlackNode) setBlackColor() {
 /*
 设置节点颜色并改变黑色节点的总长度
 */
-func (r *RedBlackNode) setRedColor() {
+func (r *RedBlackNode) SetRedColor() {
 	if r.Color == Black {
 		r.length--
 	}
@@ -180,9 +180,9 @@ func (r *RedBlackNode) isRule5() bool {
 }
 
 func (r *RedBlackNode) rule3() *RedBlackNode {
-	r.setRedColor()
-	r.Left.setBlackColor()
-	r.Right.setBlackColor()
+	r.SetRedColor()
+	r.Left.SetBlackColor()
+	r.Right.SetBlackColor()
 	return r
 }
 
@@ -224,8 +224,8 @@ func (r *RedBlackNode) rr() *RedBlackNode {
 	right := r.Right
 	r.Right = right.Left
 	right.Left = r
-	right.setBlackColor()
-	right.Left.setRedColor()
+	right.SetBlackColor()
+	right.Left.SetRedColor()
 	return r
 }
 
@@ -247,8 +247,8 @@ func (r *RedBlackNode) ll() *RedBlackNode {
 	left := r.Left
 	r.Left = left.Right
 	left.Right = r
-	left.setBlackColor()
-	left.Right.setRedColor()
+	left.SetBlackColor()
+	left.Right.SetRedColor()
 	return left
 }
 
@@ -268,12 +268,12 @@ func (r *RedBlackNode) balance() bool {
 func (r *RedBlackNode) changeNode() *RedBlackNode {
 	if r.Color == Black {
 		if r.Left.Color == Red {
-			r.Left.setBlackColor()
+			r.Left.SetBlackColor()
 		}
 		if r.Right.Color == Red {
-			r.Right.setBlackColor()
+			r.Right.SetBlackColor()
 		}
-		r.setRedColor()
+		r.SetRedColor()
 		return r
 	}
 	return r.changeRedBranch()
@@ -290,7 +290,7 @@ func (r *RedBlackNode) changeRedBranch() *RedBlackNode {
 }
 
 func (r *RedBlackNode) changeBranch() *RedBlackNode {
-	r.setBlackColor()
+	r.SetBlackColor()
 	return r
 }
 
