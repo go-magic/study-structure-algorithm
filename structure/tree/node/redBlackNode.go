@@ -320,7 +320,7 @@ func (r *RedBlackNode) BlackLength() int {
 		lLength += r.Left.BlackLength()
 	}
 	if r.Right != nil {
-		rLength = r.Right.BlackLength()
+		rLength += r.Right.BlackLength()
 	}
 	if lLength > rLength {
 		return lLength

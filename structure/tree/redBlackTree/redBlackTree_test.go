@@ -119,6 +119,7 @@ func TestSpecial(t *testing.T) {
 		t.Log("手动组装的红黑树通过")
 		t.Log("层高:", tree.Length())
 		t.Log("节点数:", tree.NodeNum())
+		t.Log("黑色节点数:", tree.root.Right.BlackLength())
 		return
 	}
 	t.Fatal("手动组装的红黑树不通过")
@@ -255,6 +256,7 @@ func TestSpecial1(t *testing.T) {
 	t.Log("测试红黑树成功")
 	t.Log("层高:", tree.Length())
 	t.Log("节点数:", tree.NodeNum())
+	t.Log("黑色节点数:", tree.BlackLength())
 }
 
 func createTree(num int) *Tree {

@@ -33,3 +33,10 @@ func (t *Tree) NodeNum() int {
 	}
 	return t.root.NodeNum() + 1
 }
+
+func (t *Tree) BlackLength() int {
+	if t.root == nil {
+		return 0
+	}
+	return t.root.BlackLength()
+}
