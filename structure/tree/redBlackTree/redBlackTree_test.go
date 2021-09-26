@@ -2,7 +2,9 @@ package redBlackTree
 
 import (
 	"github.com/go-magic/study-structure-algorithm/structure/tree/node"
+	"math/rand"
 	"testing"
+	"time"
 )
 
 func initBinaryTree() *Tree {
@@ -115,6 +117,8 @@ func TestSpecial(t *testing.T) {
 		tree.root.Right.Left.Left.Data == 21 &&
 		tree.root.Right.Left.Left.Color == node.Red {
 		t.Log("手动组装的红黑树通过")
+		t.Log("层高:", tree.Length())
+		t.Log("节点数:", tree.NodeNum())
 		return
 	}
 	t.Fatal("手动组装的红黑树不通过")
@@ -248,5 +252,26 @@ func TestSpecial1(t *testing.T) {
 		t.Fatal("测试红黑树插入32失败")
 		return
 	}
-	t.Fatal("测试红黑树成功")
+	t.Log("测试红黑树成功")
+	t.Log("层高:", tree.Length())
+	t.Log("节点数:", tree.NodeNum())
+}
+
+func createTree(num int) *Tree {
+	tree := NewRedBlackTree()
+	rand.Seed(time.Now().Unix())
+	for i := 0; i < num; i++ {
+		r := rand.Intn(num)
+		tree.Insert(r)
+	}
+	return tree
+}
+
+func TestSpecial2(t *testing.T) {
+	num := 10000000
+	tree := createTree(num)
+	t.Log("插入节点数:", num)
+	t.Log("层高:", tree.Length())
+	t.Log("节点数:", tree.NodeNum())
+	t.Log("旋转次数:", node.Count)
 }

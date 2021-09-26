@@ -267,6 +267,9 @@ func (r *RedBlackNode) balance() bool {
 	return true
 }
 
+/*
+是否是叶子节点
+*/
 func (r *RedBlackNode) isLeaf() bool {
 	if r.Left == nil && r.Right == nil {
 		return true
@@ -274,6 +277,9 @@ func (r *RedBlackNode) isLeaf() bool {
 	return false
 }
 
+/*
+是否有红孩子节点
+*/
 func (r *RedBlackNode) haveRedChild() bool {
 	if r.Left != nil && r.Left.Color == Red {
 		return true
@@ -282,4 +288,56 @@ func (r *RedBlackNode) haveRedChild() bool {
 		return true
 	}
 	return false
+}
+
+/*
+获取层高
+*/
+func (r *RedBlackNode) Length() int {
+	lLength, rLength := 0, 0
+	if r.Left != nil {
+		lLength = r.Left.Length() + 1
+	}
+	if r.Right != nil {
+		rLength = r.Right.Length() + 1
+	}
+	if lLength > rLength {
+		return lLength
+	}
+	return rLength
+}
+
+/*
+获取黑色节点个数
+*/
+func (r *RedBlackNode) BlackLength() int {
+	lLength, rLength := 0, 0
+	if r.Color == Black {
+		lLength = 1
+		rLength = 1
+	}
+	if r.Left != nil {
+		lLength += r.Left.BlackLength()
+	}
+	if r.Right != nil {
+		rLength = r.Right.BlackLength()
+	}
+	if lLength > rLength {
+		return lLength
+	}
+	return rLength
+}
+
+/*
+获取节点数量
+*/
+func (r *RedBlackNode) NodeNum() int {
+	lNum, rNum := 0, 0
+	if r.Left != nil {
+		lNum += r.Left.NodeNum() + 1
+	}
+	if r.Right != nil {
+		lNum += r.Right.NodeNum() + 1
+	}
+	return lNum + rNum
 }

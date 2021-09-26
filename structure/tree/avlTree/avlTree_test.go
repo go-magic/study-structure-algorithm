@@ -114,7 +114,7 @@ func TestDeleteRightNode(t *testing.T) {
 }
 
 func TestInsert(t *testing.T) {
-	num := 1000000
+	num := 10000000
 	tree := createTree(num)
 	t.Log("插入节点数:", num)
 	t.Log("层高1:", tree.RecursionLength())
@@ -122,11 +122,11 @@ func TestInsert(t *testing.T) {
 	t.Log("节点数:", tree.NodeNum())
 	t.Log("旋转次数:", node.Count)
 
-	t.Log("开始删除节点")
-	deleteNode(tree, 1000000, 10)
-	t.Log("层高1:", tree.RecursionLength())
-	t.Log("层高2:", tree.Length())
-	t.Log("节点数:", tree.NodeNum())
+	//t.Log("开始删除节点")
+	//deleteNode(tree, 1000000, 10)
+	//t.Log("层高1:", tree.RecursionLength())
+	//t.Log("层高2:", tree.Length())
+	//t.Log("节点数:", tree.NodeNum())
 }
 
 func TestNodeNum(t *testing.T) {
