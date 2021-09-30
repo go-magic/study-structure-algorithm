@@ -75,7 +75,7 @@ func (n *Node) FindMaxNode() *Node {
 	if n.Right == nil {
 		return n
 	}
-	return n.Right.FindMinNode()
+	return n.Right.FindMaxNode()
 }
 
 /*
@@ -133,10 +133,11 @@ func (n *Node) deleteNode() *Node {
 */
 func (n *Node) deleteLeftNode() *Node {
 	maxNode := n.Left.FindMaxNode()
-	if maxNode == n.Left {
+	father := n.FindNodeFather(maxNode.Data)
+	if father == nil {
 		return maxNode
 	}
-	n.Left.Right = maxNode.Left
+	father.Right = maxNode.Left
 	maxNode.Left = n.Left
 	return maxNode
 }

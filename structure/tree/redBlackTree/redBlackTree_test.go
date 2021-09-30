@@ -1,10 +1,11 @@
 package redBlackTree
 
 import (
-	"github.com/go-magic/study-structure-algorithm/structure/tree/node"
 	"math/rand"
 	"testing"
 	"time"
+
+	"github.com/go-magic/study-structure-algorithm/structure/tree/node"
 )
 
 func initBinaryTree() *Tree {
@@ -276,4 +277,32 @@ func TestSpecial2(t *testing.T) {
 	t.Log("层高:", tree.Length())
 	t.Log("节点数:", tree.NodeNum())
 	t.Log("旋转次数:", node.Count)
+}
+
+func TestDelete(t *testing.T) {
+	tree := special()
+	tree.root.DeleteNode(13)
+	if tree.root.Data == 17 &&
+		tree.root.Color == node.Black &&
+		tree.root.Left.Data == 15 &&
+		tree.root.Left.Color == node.Black &&
+		tree.root.Right.Data == 25 &&
+		tree.root.Right.Color == node.Red &&
+		tree.root.Left.Right == nil &&
+		tree.root.Left.Left.Data == 8 &&
+		tree.root.Left.Left.Color == node.Black &&
+		tree.root.Right.Left.Data == 22 &&
+		tree.root.Right.Left.Color == node.Black &&
+		tree.root.Right.Right.Data == 27 &&
+		tree.root.Right.Right.Color == node.Black &&
+		tree.root.Left.Left.Left.Data == 1 &&
+		tree.root.Left.Left.Left.Color == node.Red &&
+		tree.root.Left.Left.Right.Data == 11 &&
+		tree.root.Left.Left.Right.Color == node.Red &&
+		tree.root.Right.Left.Left.Data == 21 &&
+		tree.root.Right.Left.Left.Color == node.Red {
+		t.Log("删除测试通过")
+		return
+	}
+	t.Fatal("删除测试不通过")
 }

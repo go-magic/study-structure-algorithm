@@ -270,7 +270,14 @@ func (a *AvlNode) delete() *AvlNode {
 如果没有右节点那么左节点最多只有一个
 */
 func (a *AvlNode) deleteLeftNode() *AvlNode {
-	return a.Left
+	maxNode := a.Left.findMaxNode()
+	father := a.findNodeFather(maxNode.Data)
+	if father == nil {
+		return maxNode.check()
+	}
+	father.Right = maxNode.Left
+	maxNode.Left = a.Left
+	return maxNode.check()
 }
 
 /*

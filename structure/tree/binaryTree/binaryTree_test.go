@@ -1,10 +1,11 @@
 package binary
 
 import (
-	"github.com/go-magic/study-structure-algorithm/structure/tree/node"
 	"math/rand"
 	"testing"
 	"time"
+
+	"github.com/go-magic/study-structure-algorithm/structure/tree/node"
 )
 
 func initBinaryTree() *Tree {
@@ -101,4 +102,30 @@ func TestNotRightNode1(t *testing.T) {
 		return
 	}
 	t.Fatal("删除180节点失败")
+}
+
+func TestNotRightNode2(t *testing.T) {
+	tree := NewTree()
+	tree.Insert(200)
+	tree.Insert(160)
+	tree.Insert(240)
+	tree.Insert(120)
+	tree.Insert(110)
+	tree.Insert(140)
+	tree.Insert(130)
+	tree.Insert(150)
+	tree.Insert(145)
+	tree.Delete(160)
+	if tree.root.Data == 200 &&
+		tree.root.Left.Data == 150 &&
+		tree.root.Right.Data == 240 &&
+		tree.root.Left.Left.Data == 120 &&
+		tree.root.Left.Left.Left.Data == 110 &&
+		tree.root.Left.Left.Right.Data == 140 &&
+		tree.root.Left.Left.Right.Left.Data == 130 &&
+		tree.root.Left.Left.Right.Right.Data == 145 {
+		t.Log("删除节点通过")
+		return
+	}
+	t.Fatal("删除节点不通过")
 }
