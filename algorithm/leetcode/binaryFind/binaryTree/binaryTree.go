@@ -32,3 +32,20 @@ func print(root *TreeNode) []int {
 	}
 	return ret
 }
+
+func insert(root *TreeNode, data int) {
+	if data < root.Val {
+		if root.Left == nil {
+			root.Left = NewTreeNode(data)
+			return
+		}
+		insert(root.Left, data)
+	}
+	if data > root.Val {
+		if root.Right == nil {
+			root.Right = NewTreeNode(data)
+			return
+		}
+		insert(root.Right, data)
+	}
+}
