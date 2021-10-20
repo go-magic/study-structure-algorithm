@@ -25,43 +25,32 @@ func letterCombinations(digits string) []string {
 	m := initMap()
 	//base := m[string(digits[0])]
 	arrs := make([][]string, 0, length)
-	for i := 1; i < length; i++ {
+	for i := 0; i < length; i++ {
 		bs := m[string(digits[i])]
 		arrs = append(arrs, bs)
 	}
-	rets := make([]string, 0)
+	rets := Deep(arrs)
 	return rets
 }
 
-func TestLetterCombinations(t *testing.T) {
-	arr := letterCombinations("23")
-	t.Log(arr)
-}
-
-func initDeep() [][]string {
-	return [][]string{{"d", "e", "f"}, {"g", "h", "i", "j"}}
-}
-
-func TestDeep(t *testing.T) {
-	arrs := initDeep()
-	arr := Deep(arrs)
-	t.Log(arr)
-}
-
 func Deep(arrs [][]string) []string {
-	return deep1(0, 0, arrs, []string{}, "")
+	return deep(0, arrs, []string{}, "")
 }
 
-func deep(x, y int, arrs [][]string, ret []string, s string) []string {
+func deep(x int, arrs [][]string, ret []string, s string) []string {
 	if x == len(arrs) {
 		ret = append(ret, s)
-		return deep(0, y+1, arrs, ret, "")
-	}
-	if y == len(arrs[x]) {
 		return ret
 	}
-	s += arrs[x][y]
-	return deep(x+1, y, arrs, ret, s)
+	if len(arrs[x]) == 0 {
+		return ret
+	}
+	deep(x+1, arrs, ret, s+arrs[x][0])
+	length := len(arrs[x])
+	for i := 0; i < length; i++ {
+		ret = deep(x+1, arrs, ret, s+arrs[x][i])
+	}
+	return ret
 }
 
 /*
@@ -72,19 +61,42 @@ func deep(x, y int, arrs [][]string, ret []string, s string) []string {
    ghi         ghi     ghi
 */
 
-func deep1(x, y int, arrs [][]string, ret []string, s string) []string {
-	if x == len(arrs)-1 {
-		ret = append(ret, s)
-		return ret
+func TestLetterCombinations(t *testing.T) {
+	arr := letterCombinations1("78")
+	t.Log(arr)
+}
+
+var phoneMap map[string]string = map[string]string{
+	"2": "abc",
+	"3": "def",
+	"4": "ghi",
+	"5": "jkl",
+	"6": "mno",
+	"7": "pqrs",
+	"8": "tuv",
+	"9": "wxyz",
+}
+
+var combinations []string
+
+func letterCombinations1(digits string) []string {
+	if len(digits) == 0 {
+		return []string{}
 	}
-	if y == len(arrs[x]) {
-		return ret
+	combinations = []string{}
+	backtrack(digits, 0, "")
+	return combinations
+}
+
+func backtrack(digits string, index int, combination string) {
+	if index == len(digits) {
+		combinations = append(combinations, combination)
+		return
 	}
-	s += arrs[x][y]
-	ret = deep1(x+1, y, arrs, ret, s)
-	length := len(arrs)
-	for i := 0; i < length; i++ {
-		ret = deep1(x, i, arrs, ret, s)
+	digit := string(digits[index])
+	letters := phoneMap[digit]
+	lettersCount := len(letters)
+	for i := 0; i < lettersCount; i++ {
+		backtrack(digits, index+1, combination+string(letters[i]))
 	}
-	return ret
 }
