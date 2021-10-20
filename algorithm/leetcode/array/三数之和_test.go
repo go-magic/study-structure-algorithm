@@ -2,53 +2,12 @@ package array
 
 import "testing"
 
-func threeSum(nums []int) [][]int {
-	return getAll(nums)
-}
-
-func createArr(length int) [][]int {
-	arrs := make([][]int, 0, length-1)
-	for i := 0; i < length-1; i++ {
-		for j := 0; j < length; j++ {
-			arr := make([]int, length)
-			arrs = append(arrs, arr)
-		}
-	}
-	return arrs
-}
-
-func getAll(nums []int) [][]int {
-	arrs := make([][]int, 0, len(nums))
-	for i := 0; i < len(nums)-1; i++ {
-		arri := createArr(len(nums))
-		for j := 0; j < len(nums); j++ {
-			for k := 0; k < len(nums); k++ {
-				arri[j][k] = nums[k]
-			}
-		}
-		arrs = append(arrs, arri...)
-	}
-	return arrs
-}
-
-func fullArr(sum []int, arrs [][]int) [][]int {
-	for i := 0; i < len(sum)-1; i++ {
-		for j := 0; j < len(sum); j++ {
-			for k := j; k < len(sum); k++ {
-
-			}
-		}
-	}
-}
-
 func TestCreateArrays(t *testing.T) {
-	arrs := createArr(3)
-	t.Log(arrs)
+
 }
 
 func TestThreeSum(t *testing.T) {
-	arrs := threeSum([]int{1, 2, 3})
-	t.Log(arrs)
+
 }
 
 /*
