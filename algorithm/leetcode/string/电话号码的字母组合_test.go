@@ -45,7 +45,6 @@ func deep(x int, arrs [][]string, ret []string, s string) []string {
 	if len(arrs[x]) == 0 {
 		return ret
 	}
-	deep(x+1, arrs, ret, s+arrs[x][0])
 	length := len(arrs[x])
 	for i := 0; i < length; i++ {
 		ret = deep(x+1, arrs, ret, s+arrs[x][i])
@@ -62,7 +61,7 @@ func deep(x int, arrs [][]string, ret []string, s string) []string {
 */
 
 func TestLetterCombinations(t *testing.T) {
-	arr := letterCombinations1("78")
+	arr := letterCombinations("78")
 	t.Log(arr)
 }
 
