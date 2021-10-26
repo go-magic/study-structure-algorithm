@@ -1,7 +1,6 @@
 package avl
 
 import (
-	"github.com/go-magic/study-structure-algorithm/structure/tree/node"
 	"math/rand"
 	"testing"
 	"time"
@@ -114,14 +113,14 @@ func TestDeleteRightNode(t *testing.T) {
 }
 
 func TestInsert(t *testing.T) {
-	num := 10000000
+	num := 1000000
 	tree := createTree(num)
-	t.Log("插入节点数:", num)
-	t.Log("层高1:", tree.RecursionLength())
-	t.Log("层高:", tree.Length())
-	t.Log("节点数:", tree.NodeNum())
-	t.Log("旋转次数:", node.Count)
-
+	//t.Log("插入节点数:", num)
+	//t.Log("层高1:", tree.RecursionLength())
+	//t.Log("层高:", tree.Length())
+	//t.Log("节点数:", tree.NodeNum())
+	//t.Log("旋转次数:", node.Count)
+	t.Log(tree)
 	//t.Log("开始删除节点")
 	//deleteNode(tree, 1000000, 10)
 	//t.Log("层高1:", tree.RecursionLength())

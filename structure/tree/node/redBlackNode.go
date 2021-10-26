@@ -368,10 +368,6 @@ func (r *RedBlackNode) DeleteNode(data int) *RedBlackNode {
 	return r
 }
 
-func (r *RedBlackNode) deleteBalance() *RedBlackNode {
-
-}
-
 /*
 删除节点实例
 */

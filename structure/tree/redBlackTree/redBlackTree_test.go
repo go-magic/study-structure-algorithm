@@ -271,12 +271,12 @@ func createTree(num int) *Tree {
 }
 
 func TestSpecial2(t *testing.T) {
-	num := 10000000
+	num := 1000000
 	tree := createTree(num)
-	t.Log("插入节点数:", num)
-	t.Log("层高:", tree.Length())
-	t.Log("节点数:", tree.NodeNum())
-	t.Log("旋转次数:", node.Count)
+	t.Log("插入节点数:", tree)
+	//t.Log("层高:", tree.Length())
+	//t.Log("节点数:", tree.NodeNum())
+	//t.Log("旋转次数:", node.Count)
 }
 
 func TestDelete(t *testing.T) {

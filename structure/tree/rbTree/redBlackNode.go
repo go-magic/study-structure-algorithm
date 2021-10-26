@@ -9,14 +9,14 @@ const (
 
 type RedBlackNode struct {
 	color       Color
-	data        NodeData
+	data        int
 	Left, Right *RedBlackNode
 }
 
 /*
 初始化为红色节点
 */
-func NewRedBlackNode(data NodeData) *RedBlackNode {
+func NewRedBlackNode(data int) *RedBlackNode {
 	return &RedBlackNode{
 		color: Red,
 		data:  data,
@@ -26,15 +26,15 @@ func NewRedBlackNode(data NodeData) *RedBlackNode {
 /*
 插入数据
 */
-func (n *RedBlackNode) Insert(data NodeData) *RedBlackNode {
-	if data.Hash() < n.data.Hash() {
+func (n *RedBlackNode) Insert(data int) *RedBlackNode {
+	if data < n.data {
 		if n.Left == nil {
 			n.Left = NewRedBlackNode(data)
 			return n
 		}
 		n.Left = n.Left.Insert(data)
 	}
-	if data.Hash() > n.data.Hash() {
+	if data > n.data {
 		if n.Right == nil {
 			n.Right = NewRedBlackNode(data)
 			return n
@@ -150,4 +150,49 @@ func (n *RedBlackNode) rule5R() *RedBlackNode {
 	node.Left.color = Red
 	node.color = Black
 	return node
+}
+
+/*
+获取节点数
+*/
+func (n *RedBlackNode) Nodes() int {
+	left, right := 0, 0
+	if n.Left != nil {
+		left += n.Left.Nodes() + 1
+	}
+	if n.Right != nil {
+		right += n.Right.Nodes() + 1
+	}
+	return left + right
+}
+
+/*
+获取层高
+*/
+func (n *RedBlackNode) Length() int {
+	left, right := 1, 1
+	if n.Left != nil {
+		left += n.Left.Length()
+	}
+	if n.Right != nil {
+		right += n.Right.Length()
+	}
+	if left > right {
+		return left
+	}
+	return right
+}
+
+/*
+获取一条支线上的黑色节点数
+*/
+func (n *RedBlackNode) BlackLength() int {
+	length := 0
+	if n.color == Black {
+		length = 1
+	}
+	if n.Left != nil {
+		return length + n.Left.BlackLength()
+	}
+	return length
 }
