@@ -85,9 +85,9 @@ func (n *Node) FindMaxNode() *Node {
 
 　　直接删除
 
-2.当前节点右子树为空
+2.当前节点左/右子树为空
 
-　　复制左子树中最大的值，用该值替代当前节点，删除左子树中原节点。
+　　把右/左子树挂上去
 
 3.当前节点右子树不为空
 
@@ -123,27 +123,31 @@ func (n *Node) deleteNode() *Node {
 		return nil
 	}
 	if n.Right == nil {
-		return n.deleteLeftNode()
+		return n.moveLeftNodeToFather()
+	}
+	if n.Left == nil {
+		return n.moveRightNodeToFather()
 	}
 	return n.deleteRightNode()
 }
 
 /*
-把左子树的最大节点移上来,注意移动左右节点
+把父节点换成左子树
 */
-func (n *Node) deleteLeftNode() *Node {
-	maxNode := n.Left.FindMaxNode()
-	father := n.FindNodeFather(maxNode.Data)
-	if father == nil {
-		return maxNode
-	}
-	father.Right = maxNode.Left
-	maxNode.Left = n.Left
-	return maxNode
+func (n *Node) moveLeftNodeToFather() *Node {
+	return n.Left
+}
+
+/*
+把父节点换成右子树
+*/
+func (n *Node) moveRightNodeToFather() *Node {
+	return n.Right
 }
 
 /*
 把右子树的最小节点移上来,注意需要把最小节点的右节点挂到最小节点的父节点的左孩子上
+或者把左子树最大值挂上来
 */
 func (n *Node) deleteRightNode() *Node {
 	minNode := n.Right.FindMinNode()

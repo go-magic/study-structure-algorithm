@@ -368,33 +368,21 @@ func (r *RedBlackNode) DeleteNode(data int) *RedBlackNode {
 	return r
 }
 
+func (r *RedBlackNode) deleteBalance() *RedBlackNode {
+
+}
+
 /*
 删除节点实例
 */
 func (r *RedBlackNode) deleteNode(data int) *RedBlackNode {
 	if r.Right == nil {
-		return r.deleteNotExistRightNode()
+		return r.Left
+	}
+	if r.Left == nil {
+		return r.Right
 	}
 	return r.deleteExistRightNode()
-}
-
-/*
-删除不存在右节点的节点
-*/
-func (r *RedBlackNode) deleteNotExistRightNode() *RedBlackNode {
-	//叶子节点直接删除
-	if r.Left == nil {
-		return nil
-	}
-	maxNode := r.Left.findMaxNode()
-	//查找father是为了删除该节点
-	father := r.Left.findFather(maxNode.Data)
-	if father == nil {
-		return maxNode
-	}
-	father.Right = maxNode.Left
-	maxNode.Left = r.Left
-	return maxNode
 }
 
 /*
