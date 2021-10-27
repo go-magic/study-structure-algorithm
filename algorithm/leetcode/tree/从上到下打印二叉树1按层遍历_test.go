@@ -8,16 +8,6 @@ func TestLevelOrder(t *testing.T) {
 	t.Log("测试通过", trees)
 }
 
-type TreeNode struct {
-	Val   int
-	Left  *TreeNode
-	Right *TreeNode
-}
-
-func NewTreeNode(val int) *TreeNode {
-	return &TreeNode{Val: val}
-}
-
 func initTree() *TreeNode {
 	tree := NewTreeNode(3)
 	tree.Left = NewTreeNode(9)
