@@ -31,11 +31,12 @@ func mod(n int) int {
 	}
 	n1 := 0
 	n2 := 1
-	for i := 2; i < n; i++ {
-		ret := n1 + n2
+	var ret int
+	for i := 1; i < n; i++ {
+		ret = n1 + n2
 		ret = ret % 1000000007
 		n1 = n2
 		n2 = ret
 	}
-	return n1 + n2
+	return ret
 }

@@ -3,7 +3,7 @@ package recurrence
 import "testing"
 
 func TestNumWays(t *testing.T) {
-	if n := numWays(0); n != 0 {
+	if n := numWays(0); n != 1 {
 		t.Fatal("测试失败")
 		return
 	}
@@ -26,7 +26,7 @@ func TestNumWays(t *testing.T) {
 	t.Log("测试通过")
 }
 func TestNumWays1(t *testing.T) {
-	if n := numWays1(0); n != 0 {
+	if n := numWays1(0); n != 1 {
 		t.Fatal("测试失败")
 		return
 	}
@@ -58,18 +58,22 @@ func numWays(n int) int {
 	}
 	n1 := 1
 	n2 := 2
-	for i := 3; i < n; i++ {
-		ret := n1 + n2
+	var ret int
+	for i := 2; i < n; i++ {
+		ret = n1 + n2
 		ret = ret % 1000000007
 		n1 = n2
 		n2 = ret
 	}
-	return n1 + n2
+	return ret
 }
 
 func numWays1(n int) int {
-	if n < 3 {
-		return n
+	if n < 2 {
+		return 1
+	}
+	if n == 2 {
+		return 2
 	}
 	return numWays1(n-1) + numWays1(n-2)
 }
