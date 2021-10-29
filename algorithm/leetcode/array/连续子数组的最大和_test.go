@@ -26,15 +26,9 @@ func maxSubArray(nums []int) int {
 	if len(nums) == 1 {
 		return nums[0]
 	}
-
 }
 
-type Range struct {
-	Start int
-	End   int
-}
-
-func findMaxSubArray(start, end, value int, nums []int) (int, int) {
+func findMaxSubArray(start, end, value int, nums []int) int {
 	if end == len(nums)-1 {
 		return end - start, value
 	}
