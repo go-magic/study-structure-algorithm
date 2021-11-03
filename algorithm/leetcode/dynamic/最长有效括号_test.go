@@ -58,10 +58,13 @@ s[i] 为 '(' 或 ')'
 
 */
 func longestValidParentheses(s string) int {
+	longestMap = make(map[int]int)
 	return longestValid(0, 0, "", s)
 }
 
 var count1 int
+
+var longestMap map[int]int
 
 func longestValid(length, index int, s, str string) int {
 	ok, valid := checkVlid(len(str), s)
@@ -74,9 +77,14 @@ func longestValid(length, index int, s, str string) int {
 	if index == len(str) {
 		return length
 	}
-	count1 += 2
+	count1++
 	l := longestValid(length, index+1, s+string(str[index]), str)
-	r := longestValid(0, index+1, "", str)
+	r, ok := longestMap[index+1]
+	if !ok {
+		r = longestValid(0, index+1, "", str)
+		longestMap[index+1] = r
+		count1++
+	}
 	if l > r {
 		return l
 	}
