@@ -28,9 +28,6 @@ func maxSubArray(nums []int) int {
 	}
 }
 
-func findMaxSubArray(start, end, value int, nums []int) int {
-	if end == len(nums)-1 {
-		return end - start, value
-	}
+func findMaxSubArray() int {
 
 }
