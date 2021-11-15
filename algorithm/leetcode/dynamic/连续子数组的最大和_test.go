@@ -5,6 +5,7 @@ import (
 )
 
 func TestMaxSubArray(t *testing.T) {
+	pmap = make(map[int]Pkg)
 	if num := maxSubArray([]int{-2, 1}); num != 1 {
 		t.Fatal(num)
 		return
@@ -72,12 +73,16 @@ var smap map[int]int
 var nsmap map[int]int
 
 func maxSubArray(nums []int) int {
-	if len(nums) == 1 {
-		return nums[0]
+	max := nums[0]
+	for i := 1; i < len(nums); i++ {
+		if nums[i]+nums[i-1] > nums[i] {
+			nums[i] += nums[i-1]
+		}
+		if nums[i] > max {
+			max = nums[i]
+		}
 	}
-	smap = make(map[int]int)
-	nsmap = make(map[int]int)
-	return getMaxSubArrayIndex(0, len(nums)-1, nums)
+	return max
 }
 
 /*
@@ -139,6 +144,47 @@ func getMaxSubArrayIndex(max, index int, arr []int) int {
 }
 
 func TestGetMaxSubArrayIndex(t *testing.T) {
-	s := getMaxSubArrayIndex(0, 4, []int{4, -1, 2, 1, -5})
+	pmap = make(map[int]Pkg)
+	s := getMaxSubArrayIndex1(0, 4, []int{4, -1, 2, 1, -5})
 	t.Log(s)
+}
+
+type Pkg struct {
+	Left, Right, Max int
+}
+
+var pmap map[int]Pkg
+
+func getMaxSubArrayIndex1(max, index int, arr []int) Pkg {
+	if index == 0 {
+		return Pkg{Left: arr[0] + max, Right: arr[0]}
+	}
+	count++
+	max = max + arr[index]
+	pkg, ok := pmap[index]
+	if !ok {
+		pkg = getMaxSubArrayIndex1(0, index-1, arr)
+		pkg.Right = pkg.Right + arr[index]
+		pmap[index] = pkg
+	}
+	pkg.Right = max
+	temp := maxValue(pkg.Left, pkg.Right, max)
+	pkg.Right = pkg.Left
+	if temp > pkg.Max {
+		pkg.Max = temp
+	}
+	return pkg
+}
+
+func maxValue(a, b, c int) int {
+	if a > b {
+		if a > c {
+			return a
+		}
+		return c
+	}
+	if b > c {
+		return b
+	}
+	return c
 }
