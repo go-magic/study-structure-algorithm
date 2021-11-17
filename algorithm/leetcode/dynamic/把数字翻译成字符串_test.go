@@ -84,6 +84,9 @@ func translate(index, length int, nums []int) int {
 var translateMapOne = map[int]int{}
 var translateMapTwo = map[int]int{}
 
+/*
+注意*0*这种情况
+*/
 func checkTranslateValid(index, length int, nums []int) bool {
 	num := 0
 	for i := 0; i < length; i++ {
