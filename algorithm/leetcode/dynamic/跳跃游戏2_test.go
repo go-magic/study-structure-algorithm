@@ -52,6 +52,8 @@ func TestJump(t *testing.T) {
 假设你总是可以到达数组的最后一个位置。
 
 思考: 若当前位置对应的数组为3，则可以选择跳1步、2步或者3步，从这三种情况中选择最大的数，则说明跳跃的步数最少。
+f（0） = min(f(1) + 1,f(2) +1,f(3)+1 )
+
 */
 func jump(nums []int) int {
 	saverJump = make([]int, 10000)
