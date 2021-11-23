@@ -5,6 +5,15 @@ import (
 )
 
 func TestMinPathSum(t *testing.T) {
+	if num := minPathSum([][]int{{1, 3, 1, 3},
+		{1, 5, 1, 3},
+		{4, 2, 1, 3},
+		{4, 2, 1, 3}}); num != 12 {
+		t.Fatal("测试不通过")
+		return
+	}
+	t.Log(count)
+	count = 0
 	/*
 		123
 		456
