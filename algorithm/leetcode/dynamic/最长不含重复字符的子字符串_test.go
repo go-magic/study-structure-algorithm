@@ -45,7 +45,7 @@ func TestLengthOfLongestSubstring(t *testing.T) {
 */
 func lengthOfLongestSubstring(s string) int {
 	arr = initArr(256)
-	max = 0
+	max_ = 0
 	return getMaxLengthSubstring(s)
 }
 
@@ -65,19 +65,19 @@ func getMaxLengthSubstring(s string) int {
 				temp = index
 			} else {
 				temp++
-				if temp > max {
-					max = temp
+				if temp > max_ {
+					max_ = temp
 				}
 			}
 		} else {
 			temp++
-			if temp > max {
-				max = temp
+			if temp > max_ {
+				max_ = temp
 			}
 		}
 		arr[at] = i
 	}
-	return max
+	return max_
 }
 
 func initArr(num int) []int {
@@ -89,4 +89,4 @@ func initArr(num int) []int {
 }
 
 var arr = []int{}
-var max int
+var max_ int
