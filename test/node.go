@@ -63,8 +63,10 @@ func (b *Block) Insert(data int) {
 				node.Next.Pre = node
 				return
 			}
-			p.Next = node
-			node.Pre = p
+			node.Next = p
+			node.Pre = p.Pre
+			p.Pre.Next = node
+			p.Pre = node
 			return
 		}
 		if p.Next == nil {

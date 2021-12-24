@@ -127,3 +127,17 @@ func TestName(t *testing.T) {
 	tree.Insert(18)
 	t.Log("测试通过")
 }
+
+func TestName1(t *testing.T) {
+	tree := NewTree()
+	M = 5
+	tree.Insert(1)
+	tree.Insert(10)
+	tree.Insert(20)
+	tree.Insert(30)
+	tree.Insert(40)
+	tree.Insert(50)
+	tree.Insert(60)
+	tree.Insert(23)
+	t.Log("测试通过")
+}
