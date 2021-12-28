@@ -18,14 +18,14 @@ func TestMinPathSums(t *testing.T) {
 }
 
 /*
-1,3,1
-1,5,1
-4,2,1
+解题思路
 */
 
 /*
-1,2,3
-4,5,6
+循环
+					    dp[x][y+1] + dp[x][y]  (i=边界)
+解题思路：1.子问题f(x,y)={ min(dp[x][y+1],dp[x+1][y]) + dp[x][y] (i,y >=0,&& i,y < 边界)
+						dp[x+1][y] + dp[x][y]  (y=边界)
 */
 func minPathSums(grid [][]int) int {
 	length := len(grid)
