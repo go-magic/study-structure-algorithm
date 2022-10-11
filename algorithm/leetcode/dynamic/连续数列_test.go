@@ -22,9 +22,9 @@ func maxSubArray1(nums []int) int {
 	if length < 1 {
 		return 0
 	}
-	x := 0
+	x := nums[0]
 	y := nums[0]
-	for i := 1; i < len(nums); i++ {
+	for i := 1; i < length; i++ {
 		x = max(x, y)
 		y = max(y+nums[i], nums[i])
 	}
